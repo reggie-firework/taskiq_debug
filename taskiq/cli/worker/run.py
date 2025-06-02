@@ -195,7 +195,7 @@ def run_worker(args: WorkerArgs) -> Optional[int]:
         )
     logging.getLogger("taskiq").setLevel(level=logging.getLevelName(args.log_level))
     logging.getLogger("watchdog.observers.inotify_buffer").setLevel(level=logging.INFO)
-    logger.info("Pid of a main process: %s", str(os.getpid()))
+    logger.info(f"Pid of a main process: {os.getpid()}, platform = {platform}")
     logger.info("Starting %s worker processes.", args.workers)
 
     observer = None
