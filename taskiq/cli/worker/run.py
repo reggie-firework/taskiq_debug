@@ -4,6 +4,7 @@ import logging
 import os
 import signal
 import sys
+import traceback
 from concurrent.futures import Executor, ProcessPoolExecutor, ThreadPoolExecutor
 from multiprocessing import get_start_method, set_start_method
 from sys import platform
@@ -195,7 +196,7 @@ def run_worker(args: WorkerArgs) -> Optional[int]:
         )
     logging.getLogger("taskiq").setLevel(level=logging.getLevelName(args.log_level))
     logging.getLogger("watchdog.observers.inotify_buffer").setLevel(level=logging.INFO)
-    logger.info(f"Pid of a main process: {os.getpid()}, platform = {platform}")
+    logger.info(f"Pid of a main process: {os.getpid()}, platform = {platform}, max async tasks = {args.max_async_tasks}, num workers = {args.workers}, trace = {repr(traceback.format_stack())}")
     logger.info("Starting %s worker processes.", args.workers)
 
     observer = None
