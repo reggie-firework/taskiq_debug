@@ -23,6 +23,8 @@ class WorkerCMD(TaskiqCMD):
         :param args: CLI arguments.
         :returns: status code.
         """
+        logging.getLogger("taskiq").setLevel(level=logging.getLevelName(logging.INFO))
+        logging.getLogger("watchdog.observers.inotify_buffer").setLevel(level=logging.INFO)
         logger.info(f"TaskIQ Worker startup args: {", ".join(args)}")
         wargs = WorkerArgs.from_cli(args)
         logger.info(f"TaskIQ Worker --workers after processing: {wargs.workers}")
