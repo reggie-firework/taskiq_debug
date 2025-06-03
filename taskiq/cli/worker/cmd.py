@@ -28,4 +28,4 @@ class WorkerCMD(TaskiqCMD):
         logger.info(f"TaskIQ Worker startup args: {", ".join(args)}")
         wargs = WorkerArgs.from_cli(args)
         logger.info(f"TaskIQ Worker --workers after processing: {wargs.workers}")
-        return run_worker(wargs)
+        return run_worker(wargs, args)
