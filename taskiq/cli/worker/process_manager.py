@@ -97,10 +97,8 @@ class ShutdownAction(ProcessActionBase):
 
 
 def _wait_for_worker_startup(process: Process, event: EventType) -> None:
-    while process.is_alive():
-        with suppress(TimeoutError):
-            event.wait(0.1)
-            return
+    while not process.is_alive():
+        sleep(0.5)
 
 
 def schedule_workers_reload(
@@ -272,12 +270,12 @@ class ProcessManager:
                             os.kill(worker.pid, signal.SIGINT)
                     return None
 
-            #for worker_num, worker in enumerate(self.workers):
-            #    if not worker.is_alive():
-            #        logger.info(f"{worker.name} is dead. Scheduling reload.")
-            #        self.action_queue.put(
-            #            ReloadOneAction(
-            #                worker_num=worker_num,
-            #                is_reload_all=False,
-            #            ),
-            #        )
+            for worker_num, worker in enumerate(self.workers):
+                if not worker.is_alive():
+                    logger.info(f"{worker.name} is dead. Scheduling reload.")
+                    self.action_queue.put(
+                        ReloadOneAction(
+                            worker_num=worker_num,
+                            is_reload_all=False,
+                        ),
+                    )
