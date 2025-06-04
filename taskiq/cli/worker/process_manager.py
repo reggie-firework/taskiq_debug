@@ -98,6 +98,7 @@ class ShutdownAction(ProcessActionBase):
 
 def _wait_for_worker_startup(process: Process, event: EventType) -> None:
     while not process.is_alive():
+        logger.info(f"Awaiting process {process.name}...")
         sleep(0.5)
 
 
@@ -236,6 +237,7 @@ class ProcessManager:
         """
         restarts = 0
         self.prepare_workers()
+        logger.info("Finished preparing workers")
         while True:
             sleep(1)
             reloaded_workers = set()
